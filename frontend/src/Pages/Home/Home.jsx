@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import TableCard from "../../Components/TableCard/TableCard";
 import { useLoading } from "../../Hooks/useLoading";
-import { getAll } from "../../Services/UserService";
+import {
+  deleteUser,
+  getAll,
+} from "../../Services/UserService";
 
 export default function ManageTask() {
   const [user, setUser] = useState([]);
@@ -28,6 +31,25 @@ export default function ManageTask() {
 
     fetchData();
   }, []);
+
+  const DeleteUser = async (id) => {
+    try {
+      console.log(id);
+      const responseData = await deleteUser(id);
+      if (responseData.success === true) {
+        toast.success(responseData.message);
+        setUser((prevUser) =>
+          prevUser.filter(
+            (User) => User._id !== id
+          )
+        );
+      } else if (responseData.success === false) {
+        toast.error(responseData.message);
+      }
+    } catch (error) {
+      toast.error("Please try again!");
+    }
+  };
 
   return (
     <>
@@ -71,6 +93,7 @@ export default function ManageTask() {
                         <TableCard
                           index={index}
                           userData={userData}
+                          DeleteUser={DeleteUser}
                         />
                       )
                     )}

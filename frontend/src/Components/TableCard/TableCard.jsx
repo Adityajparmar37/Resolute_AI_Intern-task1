@@ -2,7 +2,11 @@ import { Link } from "react-router-dom";
 import { LiaUserEditSolid } from "react-icons/lia";
 import { MdDelete } from "react-icons/md";
 
-const TableCard = ({ index, userData }) => {
+const TableCard = ({
+  index,
+  userData,
+  DeleteUser,
+}) => {
   console.log(userData);
   return (
     <>
@@ -32,9 +36,9 @@ const TableCard = ({ index, userData }) => {
                 </button>
               </Link>
               <button
-                // onClick={() =>
-                //   DeleteTeacher(userData._id)
-                // }
+                onClick={() =>
+                  DeleteUser(userData._id)
+                }
                 className={`p-2 text-2xl font-semibold duration-200 hover:rounded-full hover:bg-red-500 hover:text-white dark:text-red-500`}>
                 <MdDelete />
               </button>

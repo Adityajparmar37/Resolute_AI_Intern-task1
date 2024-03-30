@@ -56,6 +56,19 @@ export const getAll = async () => {
   }
 };
 
+export const deleteUser = async (id) => {
+  try {
+    console.log(id);
+    const { data } = await axios.delete(
+      `api/user/delete/${id} `
+    );
+    console.log("user ==> ", data);
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
 export const getUser = () =>
   localStorage.getItem("userInfo")
     ? JSON.parse(localStorage.getItem("userInfo"))

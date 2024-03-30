@@ -183,4 +183,30 @@ router.get(
   })
 );
 
+router.delete(
+  "/delete/:id",
+  authMid,
+  handler(async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const UserToDelete =
+        await User.findByIdAndDelete(id);
+
+      if (!UserToDelete) {
+        return next(
+          errorHandler(404, "User not found")
+        );
+      }
+
+      res.status(200).json({
+        success: true,
+        message: "User deleted successfully",
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  })
+);
+
 module.exports = router;
