@@ -44,6 +44,18 @@ export const ProfileUpdate = async (formData) => {
   }
 };
 
+export const getAll = async () => {
+  try {
+    const { data } = await axios.get(
+      "api/user/all"
+    );
+    console.log(data);
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
 export const getUser = () =>
   localStorage.getItem("userInfo")
     ? JSON.parse(localStorage.getItem("userInfo"))
