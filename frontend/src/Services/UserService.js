@@ -69,6 +69,31 @@ export const deleteUser = async (id) => {
   }
 };
 
+export const getUserInfo = async (id) => {
+  try {
+    console.log(id);
+    const { data } = await axios.get(
+      `api/user/${id}`
+    );
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const updateUser = async (userData) => {
+  try {
+    // console.log(id);
+    const { data } = await axios.put(
+      `api/user/update`,
+      userData
+    );
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
 export const getUser = () =>
   localStorage.getItem("userInfo")
     ? JSON.parse(localStorage.getItem("userInfo"))

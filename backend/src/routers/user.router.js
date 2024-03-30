@@ -185,7 +185,6 @@ router.get(
 
 router.delete(
   "/delete/:id",
-  authMid,
   handler(async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -205,6 +204,46 @@ router.delete(
     } catch (error) {
       console.log(error);
       next(error);
+    }
+  })
+);
+
+///find individual user
+router.get(
+  "/:id",
+  handler(async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      console.log(id);
+      const userData = await User.findById(id);
+      console.log(userData);
+      res.send({
+        userData,
+      });
+    } catch (error) {
+      next(errorHandler(404, "No User Found"));
+    }
+  })
+);
+
+///find individual user
+router.put(
+  "/update",
+  handler(async (req, res, next) => {
+    try {
+      const newUser = req.body;
+      const userData =
+        await User.findByIdAndUpdate(
+          newUser._id,
+          newUser,
+          { new: true }
+        );
+      console.log(userData);
+      res.send({
+        userData,
+      });
+    } catch (error) {
+      next(errorHandler(404, "No User Found"));
     }
   })
 );

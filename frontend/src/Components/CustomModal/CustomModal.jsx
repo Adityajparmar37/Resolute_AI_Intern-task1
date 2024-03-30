@@ -23,12 +23,12 @@ const CustomModal = ({
           left: "50%",
           transform: "translate(-50%, -50%)",
           zIndex: 1001,
-          maxWidth: "30%",
-          maxHeight: "20%",
+          maxWidth: "100%",
+          maxHeight: "70%",
           overflow: "auto",
         },
       }}>
-      <div className="relative flex w-full flex-col items-center justify-center">
+      <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
         <div className="flex w-full">
           <button
             onClick={onRequestClose}
