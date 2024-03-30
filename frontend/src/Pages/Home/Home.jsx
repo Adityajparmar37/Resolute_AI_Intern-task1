@@ -15,6 +15,11 @@ export default function ManageTask() {
   const [userInfo, setUserInfo] = useState({});
   const [modalIsOpen, setModalIsOpen] =
     useState(false);
+  const [filterValue, setFilterValue] =
+    useState("");
+  const [sortKey, setSortKey] = useState(null);
+  const [sortDirection, setSortDirection] =
+    useState("asc"); // or "desc"
   const { showLoading, hideLoading } =
     useLoading();
 
@@ -89,18 +94,80 @@ export default function ManageTask() {
   const handleUpdate = async () => {
     try {
       console.log(userInfo);
-      const updateData = await updateUser(userInfo);
+      const updateData = await updateUser(
+        userInfo
+      );
       console.log(updateData);
     } catch (error) {
       toast.error("Please try again");
     }
   };
 
+  const handleSort = (key) => {
+    if (sortKey === key) {
+      // Reverse sort direction if same key clicked
+      setSortDirection(
+        sortDirection === "asc" ? "desc" : "asc"
+      );
+    } else {
+      // Set new sort key and default direction
+      setSortKey(key);
+      setSortDirection("asc");
+    }
+  };
+
+  const filteredUser = user.filter((userData) =>
+    userData.name
+      .toLowerCase()
+      .includes(filterValue.toLowerCase())
+  );
+
+  const sortedUser = sortKey
+    ? filteredUser.sort((a, b) => {
+        const aValue = a[sortKey];
+        const bValue = b[sortKey];
+        if (sortDirection === "asc") {
+          return aValue.localeCompare(bValue);
+        } else {
+          return bValue.localeCompare(aValue);
+        }
+      })
+    : filteredUser;
+
   return (
     <>
       <div className="pt-20 h-screen bg-gray-100">
         {user && user.length > 0 ? (
           <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-row mt-14 justify-center items-center">
+              <label className="text-black items-center mr-3 text-lg font-bold">
+                Search:{" "}
+              </label>
+              <input
+                type="text"
+                placeholder="Filter by name or email"
+                value={filterValue}
+                className="p-1 text-black font-semibold border focus:shadow-inner"
+                onChange={(e) =>
+                  setFilterValue(e.target.value)
+                }
+              />
+              <th
+                scope="col"
+                className="cursor-pointer text-lg mr-5 ml-5"
+                onClick={() =>
+                  handleSort("name")
+                }>
+                Sort: {""}
+                {sortKey === "name" && (
+                  <span>
+                    {sortDirection === "asc"
+                      ? "▲ New"
+                      : " ▼ Old"}
+                  </span>
+                )}
+              </th>
+            </div>
             <table className="w-[90%] text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mt-20">
               <thead className="text-[1rem] font-bold text-white uppercase bg-gray-50 dark:bg-gray-800 dark:text-gray-40 border-b-4 border-white">
                 <tr>
@@ -129,15 +196,17 @@ export default function ManageTask() {
                 </tr>
               </thead>
               <tbody>
-                {user.map((userData, index) => (
-                  <TableCard
-                    key={userData._id} // Don't forget to add a unique key
-                    index={index}
-                    userData={userData}
-                    DeleteUser={DeleteUser}
-                    openModal={openModal} // Pass openModal function
-                  />
-                ))}
+                {sortedUser.map(
+                  (userData, index) => (
+                    <TableCard
+                      key={userData._id} // Don't forget to add a unique key
+                      index={index}
+                      userData={userData}
+                      DeleteUser={DeleteUser}
+                      openModal={openModal} // Pass openModal function
+                    />
+                  )
+                )}
               </tbody>
             </table>
           </div>
@@ -159,7 +228,6 @@ export default function ManageTask() {
         </h1>{" "}
         <div className="flex justify-center items-center py-3 m-16 overflow-hidden">
           <form>
-            {console.log(userInfo)}
             <div className="flex flex-col ">
               <label className="font-semibold text-lg">
                 Name:
