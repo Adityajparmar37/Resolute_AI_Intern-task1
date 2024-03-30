@@ -9,7 +9,8 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] =
     useState(false);
 
-  const { student, logout } = useAuth();
+  const { user, logout } = useAuth();
+  console.log(user);
   const navigate = useNavigate();
   const [
     isProfileMenuOpen,
@@ -41,15 +42,15 @@ export default function Header() {
             </span>
           </Link>
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            {student ? (
+            {user ? (
               <>
                 <div className="relative">
-                  {student && (
+                  {user && (
                     <button
                       type="button"
                       onClick={toggleProfileMenu}
                       className="text-slate-50 focus:outline-none bg-blue-800 py-1 font-bold  px-4 rounded-md hover:rounded-full delay-100 ">
-                      {student.name}
+                      {user.name}
                     </button>
                   )}
                   {isProfileMenuOpen && (
@@ -118,7 +119,7 @@ export default function Header() {
               isMenuOpen ? "block" : "hidden"
             }`}
             id="navbar-sticky">
-            {student ? (
+            {user ? (
               <ul className="mt-5 flex flex-col md:flex-row md:space-x-8 ">
                 <li>
                   <Link
@@ -130,30 +131,10 @@ export default function Header() {
                 </li>
                 <li>
                   <Link
-                    to="/project"
-                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                    Project
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/task"
-                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                    Task
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/chat"
-                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                    Chat
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/file"
-                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                    File
+                    to="/profile"
+                    className="block py-2 px-3 text-white rounded md:bg-transparent md:text-white md:p-0 md:dark:text-white hover:text-blue-700"
+                    aria-current="page">
+                    Profile
                   </Link>
                 </li>
               </ul>

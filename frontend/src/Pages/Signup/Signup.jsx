@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import {
   useNavigate,
   useSearchParams,
+  Link,
 } from "react-router-dom";
 import { useAuth } from "../../Hooks/useAuth";
 import { useLoading } from "../../Hooks/useLoading";
@@ -13,21 +14,22 @@ export default function SignUp() {
     useLoading();
   const [params] = useSearchParams();
   const returnUrl = params.get("returnUrl");
-  const { student, signup } = useAuth();
+  const { user, signup } = useAuth();
   const [form, setForm] = useState({
     name: "",
     email: "",
-    InsitutionName: "",
     password: "",
   });
 
+  // console.log(singup);
+
   useEffect(() => {
-    if (!student) return;
+    if (!user) return;
 
     returnUrl
       ? navigate(returnUrl)
       : navigate("/home");
-  }, [navigate, returnUrl, student]);
+  }, [navigate, returnUrl, user]);
   const handlerSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -38,11 +40,15 @@ export default function SignUp() {
         toast.error("Password must match");
         return;
       }
+
+      // if (form.password.length < 5) {
+      //   toast.error("Password must of 6 length");
+      // }
       showLoading();
       const SignUpResponse = await signup(form);
       hideLoading();
       console.log(
-        "Student SignUp=>> ",
+        "user SignUp=>> ",
         SignUpResponse
       );
     } catch (error) {
@@ -127,16 +133,18 @@ export default function SignUp() {
         </form>
       </div>
 
-      {/* <div className="w-full md:w-[25rem] h-15 mt-8 bg-white rounded-xl flex flex-col items-center justify-center p-8">
-                <h1 className="font-semibold text-xl md:text-3xl text-black mb-6">Already have account !</h1>
-                <Link to="/signup">
-                    <button
-                        type="button"
-                        className="w-full md:w-[20rem] bg-white text-black rounded-md p-2 hover:bg-zinc-200 focus:outline-none focus:ring focus:border-zinc-400 hover:rounded-full border-2 md:border-4">
-                        Login to account
-                    </button>
-                </Link>
-            </div> */}
+      <div className="w-full md:w-[25rem] h-15 mt-3 bg-white rounded-xl flex flex-col items-center justify-center p-8">
+        <h1 className="font-semibold text-xl md:text-3xl text-black mb-6">
+          Already have account !
+        </h1>
+        <Link to="/login">
+          <button
+            type="button"
+            className="w-full md:w-[20rem] bg-white text-black rounded-md p-2 hover:bg-zinc-200 focus:outline-none focus:ring focus:border-zinc-400 hover:rounded-full border-2 md:border-4">
+            Login to account
+          </button>
+        </Link>
+      </div>
     </div>
   );
 }

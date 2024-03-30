@@ -4,6 +4,7 @@ const handler = require("express-async-handler");
 const errorHandler = require("../middlewares/errorMiddleware.js");
 const User = require("../model/userModel.js");
 const generateToken = require("../utils/generateToken.js");
+const authMid = require("../middlewares/authMiddleware.js");
 
 //login endpoint
 router.post(
@@ -63,7 +64,7 @@ router.post(
         );
       }
 
-      if (password.length < 6) {
+      if (password.length < 5) {
         console.log(password.length);
         next(
           errorHandler(
@@ -113,6 +114,72 @@ router.post(
     } catch (error) {
       next(error);
     }
+  })
+);
+
+router.put(
+  "/profileUpdate",
+  authMid,
+  handler(async (req, res, next) => {
+    try {
+      const formData = req.body;
+      const studentId = req.user.id;
+      console.log(formData);
+
+      const existingProfile = await User.findById(
+        studentId
+      );
+
+      if (!existingProfile) {
+        console.log(error);
+        return next(
+          errorHandler(
+            404,
+            "Profile not found, please try again!"
+          )
+        );
+      }
+
+      if (formData.password) {
+        console.log(formData.password);
+        const salt = await bcrypt.genSalt(10);
+        formData.password = await bcrypt.hash(
+          formData.password,
+          salt
+        );
+      }
+
+      const updatedProfile =
+        await User.findByIdAndUpdate(
+          studentId,
+          formData,
+          { new: true }
+        );
+
+      console.log(updatedProfile);
+      res.json({
+        updatedProfile,
+        update: true,
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  })
+);
+
+router.get(
+  "/all",
+  handler(async (req, res, next) => {
+    try {
+      const getAllUser = await User.find({});
+
+      if (getAllUser) {
+        res.send(getAllUser);
+      } else {
+        next(errorHandler(404, "No User !"));
+      }
+    } catch {}
   })
 );
 

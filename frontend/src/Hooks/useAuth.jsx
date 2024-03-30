@@ -30,11 +30,8 @@ export const AuthProvider = ({ children }) => {
           JSON.stringify(user)
         );
         toast.success("Successfully Login !", {
-          icon: "👏",
           style: {
             width: "15rem",
-            color: "white",
-            background: "#3FFF00",
           },
         });
         navigate("/home");
@@ -46,8 +43,6 @@ export const AuthProvider = ({ children }) => {
             },
             style: {
               width: "15rem",
-              color: "white",
-              background: "red",
             },
           });
       }
@@ -57,7 +52,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const singup = async (signUpData) => {
+  const signup = async (signUpData) => {
     try {
       const user = await userService.singup(
         signUpData
@@ -71,11 +66,8 @@ export const AuthProvider = ({ children }) => {
           JSON.stringify({ _id, name, email })
         );
         toast.success("Successfully Login !", {
-          icon: "👏",
           style: {
             width: "15rem",
-            color: "white",
-            background: "#3FFF00",
           },
         });
         navigate("/home");
@@ -87,11 +79,37 @@ export const AuthProvider = ({ children }) => {
             },
             style: {
               width: "15rem",
-              color: "white",
-              background: "red",
             },
           });
         }
+      }
+    } catch (error) {
+      toast.error("Some Error Occured !");
+      console.log("ERROR OCCURED !", error);
+    }
+  };
+  const UpdateUser = async (formData) => {
+    try {
+      const data =
+        await userService.ProfileUpdate(formData);
+      console.log(
+        "update Profile ==> ",
+        data.update
+      );
+
+      if (data.update === true) {
+        const updatedStudentInfo = {
+          ...studentServices.getUser(),
+          name: formData.name,
+          email: formData.email,
+          InsitutionName: formData.InsitutionName,
+        };
+        setStudent(updatedStudentInfo);
+        localStorage.setItem(
+          "studentInfo",
+          JSON.stringify(updatedStudentInfo)
+        );
+        return data;
       }
     } catch (error) {
       toast.error("Some Error Occured !");
@@ -107,15 +125,19 @@ export const AuthProvider = ({ children }) => {
       icon: "👏",
       style: {
         width: "15rem",
-        color: "white",
-        background: "#3FFF00",
       },
     });
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, login, singup, logout }}>
+      value={{
+        user,
+        login,
+        signup,
+        logout,
+        UpdateUser,
+      }}>
       {children}
     </AuthContext.Provider>
   );

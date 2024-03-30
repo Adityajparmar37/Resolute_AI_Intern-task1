@@ -16,7 +16,7 @@ dbconnect();
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:5175"],
+    origin: ["http://localhost:5173"],
   })
 );
 

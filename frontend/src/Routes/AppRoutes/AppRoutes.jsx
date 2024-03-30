@@ -5,6 +5,7 @@ import Signup from "../../Pages/Signup/Signup";
 import Profile from "../../Pages/Profile/Profile";
 import AuthRoute from "../AuthRoutes/AuthRouters";
 import LandingPage from "../../Pages/LandingPage/LandingPage";
+import Home from "../../Pages/Home/Home";
 
 export default function AppRoutes() {
   return (
@@ -25,6 +26,15 @@ export default function AppRoutes() {
         <Route
           path="/signup"
           element={<Signup />}
+        />
+
+        <Route
+          path="/home"
+          element={
+            <AuthRoute>
+              <Home />
+            </AuthRoute>
+          }
         />
 
         {/* Profile */}

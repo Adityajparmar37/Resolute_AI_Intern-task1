@@ -28,6 +28,22 @@ export const singup = async (signUpData) => {
   }
 };
 
+export const ProfileUpdate = async (formData) => {
+  try {
+    const { data } = await axios.put(
+      "api/user/profileUpdate",
+      formData
+    );
+    console.log(
+      "Update Profile Frontend API Hit ==> ",
+      data
+    );
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
 export const getUser = () =>
   localStorage.getItem("userInfo")
     ? JSON.parse(localStorage.getItem("userInfo"))

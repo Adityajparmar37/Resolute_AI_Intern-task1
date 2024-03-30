@@ -93,17 +93,6 @@ export default function Login() {
             className="w-full bg-blue-700 text-white rounded-md p-2 hover:bg-blue-800 focus:outline-none focus:ring focus:border-blue-500 hover:rounded-full mt-3">
             Login
           </button>
-
-          <div className="flex justify-center items-center mt-5 text-slate-900">
-            <p className="mr-2">
-              Forgot Password ?
-            </p>
-            <Link to="/forgotPassword">
-              <span className="text-red-600 font-semibold">
-                Click here
-              </span>
-            </Link>
-          </div>
         </form>
       </div>
 
