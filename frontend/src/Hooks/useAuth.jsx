@@ -98,16 +98,15 @@ export const AuthProvider = ({ children }) => {
       );
 
       if (data.update === true) {
-        const updatedStudentInfo = {
-          ...studentServices.getUser(),
+        const updatedUserInfo = {
+          ...userService.getUser(),
           name: formData.name,
           email: formData.email,
-          InsitutionName: formData.InsitutionName,
         };
-        setStudent(updatedStudentInfo);
+        setUser(updatedUserInfo);
         localStorage.setItem(
-          "studentInfo",
-          JSON.stringify(updatedStudentInfo)
+          "userInfo",
+          JSON.stringify(updatedUserInfo)
         );
         return data;
       }

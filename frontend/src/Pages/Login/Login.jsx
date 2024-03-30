@@ -14,14 +14,14 @@ export default function Login() {
     useLoading();
   const [params] = useSearchParams();
   const returnUrl = params.get("returnUrl");
-  const { student, login } = useAuth();
+  const { user, login } = useAuth();
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
 
   useEffect(() => {
-    if (!student) return;
+    if (!user) return;
 
     returnUrl
       ? navigate(returnUrl)
@@ -35,7 +35,7 @@ export default function Login() {
       const LoginResponse = await login(form);
       hideLoading();
       console.log(
-        "Student login =>> ",
+        "user login =>> ",
         LoginResponse
       );
     } catch (error) {

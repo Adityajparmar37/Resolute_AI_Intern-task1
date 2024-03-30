@@ -7,19 +7,19 @@ import { useAuth } from "../../Hooks/useAuth";
 import { useLoading } from "../../Hooks/useLoading";
 
 export default function LandingPage() {
-  const { student } = useAuth();
+  const { user } = useAuth();
   const { showLoading, hideLoading } =
     useLoading();
   const navigate = useNavigate();
   useEffect(() => {
-    if (student) {
+    if (user) {
       showLoading();
       navigate("/home");
       hideLoading();
     }
-  }, [student, navigate]);
+  }, [user, navigate]);
 
-  return student ? (
+  return user ? (
     navigate("/home")
   ) : (
     <div className="pt-20 bg-gradient-to-t from-skyBlue-rgba h-screen flex flex-col md:flex-row items-center justify-center overflow-hidden">

@@ -12,6 +12,7 @@ const authMid = handler(
         token,
         process.env.JWT_KEY
       );
+      console.log(decoded);
       req.user = decoded;
       next();
     } catch (error) {

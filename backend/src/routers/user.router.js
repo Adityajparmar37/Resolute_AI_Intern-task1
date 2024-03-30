@@ -123,11 +123,11 @@ router.put(
   handler(async (req, res, next) => {
     try {
       const formData = req.body;
-      const studentId = req.user.id;
+      const userId = req.user.id;
       console.log(formData);
 
       const existingProfile = await User.findById(
-        studentId
+        userId
       );
 
       if (!existingProfile) {
@@ -151,7 +151,7 @@ router.put(
 
       const updatedProfile =
         await User.findByIdAndUpdate(
-          studentId,
+          userId,
           formData,
           { new: true }
         );
