@@ -145,7 +145,7 @@ export default function ManageTask() {
               </label>
               <input
                 type="text"
-                placeholder="Filter by name or email"
+                placeholder="Filter by name"
                 value={filterValue}
                 className="p-1 text-black font-semibold border focus:shadow-inner"
                 onChange={(e) =>
