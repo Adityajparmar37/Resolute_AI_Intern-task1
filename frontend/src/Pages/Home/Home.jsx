@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import CustomModal from "../../Components/CustomModal/CustomModal";
 import TableCard from "../../Components/TableCard/TableCard";
 import { useLoading } from "../../Hooks/useLoading";
 import {
@@ -8,7 +9,10 @@ import {
 } from "../../Services/UserService";
 
 export default function ManageTask() {
+  const [updateId, setUpdateId] = useState();
   const [user, setUser] = useState([]);
+  const [modalIsOpen, setModalIsOpen] =
+    useState(false);
   const { showLoading, hideLoading } =
     useLoading();
 
@@ -49,6 +53,17 @@ export default function ManageTask() {
     } catch (error) {
       toast.error("Please try again!");
     }
+  };
+
+  const UpdateUser = async () => {};
+
+  const openModal = (id) => {
+    setUpdateId(id);
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
   };
 
   return (
@@ -94,6 +109,7 @@ export default function ManageTask() {
                           index={index}
                           userData={userData}
                           DeleteUser={DeleteUser}
+                          openModal={openModal}
                         />
                       )
                     )}
@@ -111,6 +127,13 @@ export default function ManageTask() {
           </div>
         )}
       </div>
+      <CustomModal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}>
+        <h1 className="text-xl font-semibold text-gray-800">
+          Update Information
+        </h1>
+      </CustomModal>
     </>
   );
 }
